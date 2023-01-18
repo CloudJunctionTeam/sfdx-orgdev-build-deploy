@@ -49,7 +49,7 @@ let login = function (cert, login){
     core.info('==== Authenticating in the target org');
     const instanceurl = login.orgType === 'sandbox' ? 'https://test.salesforce.com' : 'https://login.salesforce.com';
     core.info('Instance URL: ' + instanceurl);
-    execCommand.run('sfdx', ['force:auth:jwt:grant', '--instanceurl', instanceurl, '--clientid', login.clientId, '--jwtkeyfile', 'server.key', '--username', login.username, '--setalias', 'sfdc']);
+    execCommand.run('./sfdx/bin/sfdx', ['force:auth:jwt:grant', '--instanceurl', instanceurl, '--clientid', login.clientId, '--jwtkeyfile', 'server.key', '--username', login.username, '--setalias', 'sfdc']);
 };
 
 let deploy = function (deploy){
@@ -94,7 +94,7 @@ let deploy = function (deploy){
             argsDeploy.push(deploy.testlevel);
         }
 
-        execCommand.run('sfdx', argsDeploy, sfdxRootFolder);
+        execCommand.run('./sfdx/bin/sfdx', argsDeploy, sfdxRootFolder);
     }
 };
 
@@ -106,7 +106,7 @@ let destructiveDeploy = function (deploy){
         if (deploy.checkonly) {
             argsDestructive.push('--checkonly');
         }
-        execCommand.run('sfdx', argsDestructive);
+        execCommand.run('./sfdx/bin/sfdx', argsDestructive);
     }
 };
 
@@ -114,7 +114,7 @@ let dataFactory = function (deploy){
     core.info("=== dataFactory ===");
     if (deploy.dataFactory  && !deploy.checkonly) {
         core.info('Executing data factory');
-        execCommand.run('sfdx', ['force:apex:execute', '-f', deploy.dataFactory, '-u', 'sfdc']);
+        execCommand.run('./sfdx/bin/sfdx', ['force:apex:execute', '-f', deploy.dataFactory, '-u', 'sfdc']);
     }
 };
 
